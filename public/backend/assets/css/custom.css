@@ -117,3 +117,7 @@ div#kt_card_widget_4_chart {
 .custom-overflow {
   overflow: hidden;
 }
+.notification-badge{
+    margin-bottom: -15px;
+    margin-left: -15px;
+}

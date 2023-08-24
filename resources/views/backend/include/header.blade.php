@@ -3,5 +3,4 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
-		<meta property="og:site_name" content="Keenthemes | Metronic" />
-		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="{{asset('backend/assets/media/logos/favicon.ico')}}" />

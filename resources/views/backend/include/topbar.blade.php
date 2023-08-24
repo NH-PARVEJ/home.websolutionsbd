@@ -13,7 +13,7 @@
          <!--end::Logo wrapper-->
          <!--begin::Logo image-->
          <a href="" class="d-flex d-lg-none">
-            <img src="{{asset('backend/assets/media/settings/logo.png')}}" alt="user" />
+            <img src="{{asset('backend/assets/media/settings/logo.png')}}" class="h-20px theme-dark-show" alt="user" />
          </a>
          <!--end::Logo image-->
       </div>

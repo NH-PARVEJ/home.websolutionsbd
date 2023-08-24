@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Phattarachai\LaravelMobileDetect\Agent;
+use RealRashid\SweetAlert\Facades\Alert;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,9 +20,28 @@ class AttendanceController extends Controller
      */
     public function attendance()
     {
-        $attendances = Attendance::orderBy('id', 'desc')->get();
-        $users = User::orderBy('id', 'asc')->get();
-        return view('backend.pages.attendance.manage', compact('attendances','users'));
+        $all_attendances         = Attendance::orderBy('id', 'asc')->get();
+        $users                   = User::orderBy('id', 'asc')->get();
+        $today_attendances       = Attendance::whereDate('created_at', now()->today())->get();
+        $last_month_attendances  = Attendance::query()->whereDate('created_at', now()->subMonth())->get();
+
+
+        return view('backend.pages.attendance.manage', compact('all_attendances', 'today_attendances', 'last_month_attendances' ,'users'));
+    }
+
+
+    
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $attendance = Attendance::find($id);
+        if(!is_null($attendance)){
+            $attendance->delete();
+            Alert::warning('Successfully Deleted', 'Attendance has been Successfully Deleted.');
+            return redirect()->back();
+        }
     }
 
 }

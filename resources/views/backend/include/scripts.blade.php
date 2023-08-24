@@ -20,14 +20,17 @@
 		<!--end::Vendors Javascript-->
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script src="{{asset('backend/assets/js/widgets.bundle.js')}}"></script>
+    		<!--begin::Custom Javascript(used for this page only)-->
+		<script src="{{asset('backend/assets/js/custom/apps/ecommerce/sales/listing.js')}}"></script>
 		<script src="{{asset('backend/assets/js/custom/widgets.js')}}"></script>
 		<script src="{{asset('backend/assets/js/custom/apps/chat/chat.js')}}"></script>
+    <script src="{{asset('backend/assets/js/custom/utilities/modals/create-app.js')}}"></script>
+		<script src="{{asset('backend/assets/js/custom/utilities/modals/users-search.js')}}"></script>
 		<script src="{{asset('backend/assets/js/custom/utilities/modals/upgrade-plan.js')}}"></script>
 		<script src="{{asset('backend/assets/js/custom/utilities/modals/users-search.js')}}"></script>
 		<script src="{{asset('backend/assets/js/custom/apps/projects/project/project.js')}}"></script>
 
-		<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'>
-		</script>
+		<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
 		
 		{{-- image gallery  --}}
 		{{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -45,7 +48,8 @@ $('input[name=status]').change(function(){
 
 
 {{-- screenshot --}}
-<script>
+
+{{-- <script>
 	let modalId = $('#image-gallery');
 
   $(document)
@@ -139,8 +143,15 @@ $('input[name=status]').change(function(){
       e.preventDefault(); // prevent the default action (scroll / move caret)
     });
 
-</script>
+</script> --}}
 
+
+<script type='text/javascript'>
+  new DataTable('#today_datatable');
+</script>
+<script type='text/javascript'>
+  new DataTable('#Last_month_datatable');
+</script>
 <script type='text/javascript'>
   new DataTable('#datatable');
 </script>

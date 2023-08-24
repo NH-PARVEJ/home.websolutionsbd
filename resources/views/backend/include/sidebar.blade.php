@@ -272,16 +272,32 @@
 				<!--begin::Col-->
 				<div class="col mb-4">
 				   <!--begin::Link-->
-				   <a href="{{route('admin.leave.manage')}}" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
-					  <!--begin::Icon-->
-					  <span class="mb-2">
-					  <i class="ki-outline ki-calendar fs-1"></i>
-					  </span>
-					  <!--end::Icon-->
-					  <!--begin::Label-->
-					  <span class="fs-7 fw-bold">Leave</span>
-					  <!--end::Label-->
-				   </a>
+				   <div class="cursor-pointer position-relative symbol symbol-circle symbol-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+						<a href="{{route('admin.leave.manage')}}" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
+							<!--begin::Icon-->
+							<span class="mb-2">
+							<i class="ki-outline ki-calendar fs-1"></i>
+							</span>
+							<!--end::Icon-->
+							<!--begin::Label-->
+							<span class="fs-7 fw-bold">Leave</span>
+							<!--end::Label-->
+						</a>
+							 @php 
+							 $notif = 0; 
+							 @endphp
+							 @foreach($leave_notifications as $leave_notification)
+							 @if(!empty($leave_notification)  AND $leave_notification->status == 1)
+							 @php 
+							 $notif++; 
+							 @endphp
+							 @endif
+							 @endforeach
+
+							 @if($leave_notifications)
+						     <div class="position-absolute text-center text-white notification-badge rounded-circle bg-danger start-100 bottom-100 h-20px w-20px ms-n0 mt-n3">{{$notif}}</div>
+							 @endif
+							</div>
 				   <!--end::Link-->
 				</div>
 				@else
@@ -306,6 +322,7 @@
 				@if(Auth::user()->role == 1)
 				<div class="col mb-4">
 				   <!--begin::Link-->
+				   <div class="cursor-pointer position-relative symbol symbol-circle symbol-40px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
 				   <a href="{{route('admin.loan.manage')}}" class="btn btn-icon btn-outline btn-bg-light btn-active-light-primary btn-flex flex-column flex-center w-lg-90px h-lg-90px w-70px h-70px border-gray-200" data-kt-button="true">
 					  <!--begin::Icon-->
 					  <span class="mb-2">
@@ -315,7 +332,19 @@
 					  <!--begin::Label-->
 					  <span class="fs-7 fw-bold">Loan</span>
 					  <!--end::Label-->
-				   </a>
+					</a>
+					  @php 
+					  $loan_notif = 0; 
+					  @endphp
+					  @foreach($loan_notifications as $loan_notification)
+					  @if(!empty($loan_notification)  AND $loan_notification->status == 1)
+					  @php 
+					  $loan_notif++; 
+					  @endphp
+					  @endif
+					  @endforeach
+					  <div class="position-absolute text-center text-white notification-badge rounded-circle bg-danger start-100 bottom-100 h-20px w-20px ms-n0 mt-n3">{{$loan_notif}}</div>
+				   </div>
 				   <!--end::Link-->
 				</div>
 				@else

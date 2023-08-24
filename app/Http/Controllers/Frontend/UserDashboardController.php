@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use DB;
 use File;
 use Image;
+use Auth;
 
 class UserDashboardController extends Controller
 {
@@ -23,13 +24,21 @@ class UserDashboardController extends Controller
     public function dashboard()
     {
 
-        $attendances    = Attendance::orderBy('id', 'asc')->get();
-        $users          = User::orderBy('id', 'asc')->get();
-        $latest         = DB::table('attendances')->latest('id')->first();
-        $projects       = Project::orderBy('id', 'asc')->get();     
-        $designations   = Designation::orderBy('id', 'asc')->get();     
-        $departments    = Department::orderBy('id', 'asc')->get();     
-        return view('frontend.pages.dashboard', compact('attendances', 'latest', 'projects', 'users', 'designations', 'departments'));
+        if(!empty(Auth::Check())){
+
+            $attendances    = Attendance::orderBy('id', 'asc')->get();
+            $users          = User::orderBy('id', 'asc')->get();
+            $latest         = DB::table('attendances')->latest('id')->first();
+            $projects       = Project::orderBy('id', 'asc')->get();     
+            $designations   = Designation::orderBy('id', 'asc')->get();     
+            $departments    = Department::orderBy('id', 'asc')->get();     
+            return view('frontend.pages.dashboard', compact('attendances', 'latest', 'projects', 'users', 'designations', 'departments'));
+
+        }
+        else{
+            return redirect()->route('login');
+        }
+
    
     }
 

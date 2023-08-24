@@ -32,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
     $target = DB::table('targets')->orderBy('id', 'asc')->first();
     view()->share('latest_target', $target);
 
+    $leave = DB::table('leaves')->orderBy('id', 'asc')->get();
+    view()->share('leave_notifications', $leave);
+
+    $loan = DB::table('loans')->orderBy('id', 'asc')->get();
+    view()->share('loan_notifications', $loan);
+
     }
 }
 

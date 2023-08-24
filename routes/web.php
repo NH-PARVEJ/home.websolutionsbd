@@ -30,6 +30,7 @@ Route::get('/', [UserController::class, "user_control_panel"])->name('user.contr
     Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/edit/{id}', [UserDashboardController::class, 'edit'])->name('user.profile.edit');
     Route::post('/update/{id}', [UserDashboardController::class, 'update'])->name('user.profile.update');
+
     Route::prefix('/attendance')->group(function () {
     Route::get('manage', [UserAttendanceController::class, 'attendance'])->name('user.attendance.manage');
     Route::post('store', [UserAttendanceController::class, 'store'])->name('user.attendance.store');
@@ -78,7 +79,7 @@ Route::middleware('auth', 'IsAdmin')->group(function () {
     });
     Route::prefix('/attendance')->group(function () {
     Route::get('manage', [AttendanceController::class, 'attendance'])->name('admin.attendance.manage');
-    Route::post('store', [AttendanceController::class, 'store'])->name('admin.attendance.store');
+    Route::post('destroy/{id}', [AttendanceController::class, 'destroy'])->name('admin.attendance.destroy');
     });
     Route::prefix('/leave')->group(function () {
     Route::get('manage', [LeaveController::class, 'admin_leave'])->name('admin.leave.manage');

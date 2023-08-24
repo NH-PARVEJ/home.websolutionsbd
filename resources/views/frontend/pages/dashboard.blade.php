@@ -74,29 +74,51 @@
                               <!--begin::Follow-->
                               <form action="{{route('user.attendance.store')}}" method="POST">
                                  @csrf
+                                 @php
+                                 $date = date('H:i:s');
+                                 $date = '09:00:00';
+                                 @endphp
+
+                                 {{-- @if($date >= '10:00:00') --}}
                                  <input type="radio" value="1" name="status" id="option-1">
+                                 {{-- @elseif($date >= '21:00:00') --}}
                                  <input type="radio" value="2" name="status" id="option-2">
+                                 {{-- @else
+                                 @endif --}}
+                                 {{-- <input type="radio" value="2" name="status" id="option-2"> --}}
                                  <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                                 @if(!empty($latest->status))
+
                                  <span>
-                                    <label for="option-1" class="@if($latest->status == 2)btn btn-sm btn-primary me-3 @else btn btn-sm btn-light-primary btn-flex btn-center @endif ">
+                                    {{-- @if($date >= '10:00:00') --}}
+                                    <label for="option-1"  class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
                                        <div class="dot"></div>
                                        <span>Clock In</span>
                                     </label>
-                                    <label for="option-2" class="@if($latest->status == 1)btn btn-sm btn-primary me-3 @else btn btn-sm btn-light-primary btn-flex btn-center @endif ">
+                                    <label for="option-2" class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
                                        <div class="dot"></div>
                                        <span>Clock Out</span>
                                     </label>
-                                    @else
-                                    <label for="option-1" class="btn btn-sm btn-primary me-3">
+
+                                    {{-- @elseif($date >= '21:00:00') --}}
+                                    <label for="option-1" disabled class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
                                        <div class="dot"></div>
                                        <span>Clock In</span>
                                     </label>
-                                    <label for="option-2" class="btn btn-sm btn-light-primary btn-flex btn-center">
+                                    <label for="option-2" disabled class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
                                        <div class="dot"></div>
                                        <span>Clock Out</span>
                                     </label>
-                                    @endif
+
+                                    {{-- @else --}}
+                                    <label for="option-1"  class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
+                                       <div class="dot"></div>
+                                       <span>Clock In</span>
+                                    </label>
+                                    <label for="option-2"  class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
+                                       <div class="dot"></div>
+                                       <span>Clock Out</span>
+                                    </label>
+                                    {{-- @endif --}}
                                  </span>
                               </form>
                               <!--end::Follow--> 

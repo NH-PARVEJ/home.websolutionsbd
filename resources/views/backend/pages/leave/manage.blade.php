@@ -20,6 +20,7 @@
                            <th>End Date</th>
                            <th>Leave Type</th>
                            <th>No of Day</th>
+                           <th>Reason</th>
                            <th>Status</th>
                            <th>Action</th>
                         </tr>
@@ -62,6 +63,9 @@
                               @endif
                            <td>
                               <div class="badge badge-light-primary">{{$leave->total_day}} Day</div>
+                           </td>
+                           <td>
+                              {{$leave->reason}}
                            </td>
                            <td>
                               @if($leave->status == 1)
