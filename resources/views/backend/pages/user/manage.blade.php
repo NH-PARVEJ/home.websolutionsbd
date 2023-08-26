@@ -188,11 +188,11 @@
                         <div class="d-flex align-items-center gap-2">
                            <i  class="ki-outline ki-screen fs-2"></i>
                            <a href="#" class="text-muted text-hover-primary">
-                              @foreach($designations as $designation)
-                                 @if($single_user->designation == $designation->designation)
-                                 {{$designation->designation}}
-                                 @endif
-                              @endforeach    
+                           @foreach($designations as $designation)
+                           @if($single_user->designation == $designation->designation)
+                           {{$designation->designation}}
+                           @endif
+                           @endforeach    
                            </a>
                         </div>
                         <!--begin::Phone-->
@@ -264,6 +264,7 @@
                      <!--begin:::Tab pane-->
                      <div class="tab-pane fade show active" id="kt_contact_view_general" role="tabpanel">
                         <!--begin::Additional details-->
+                        {{-- 
                         <div class="d-flex flex-column gap-5 mt-7">
                            <!--end::Country-->
                            <div class="row g-6 g-xl-9">
@@ -419,7 +420,495 @@
                            </div>
                            <!--end::Row-->
                         </div>
+                        --}}
                         <!--end::Additional details-->
+                        <!--begin::Tab Content-->
+                        <div class="tab-content">
+                           <!--begin::ToDay Attendance Start-->
+                           <div class="tab-pane fade active show" id="kt_stats_widget_6_tab_1" role="tabpanel">
+                              <!--begin::Table container-->
+                              <!--begin::Table-->
+                              <div class="table-responsive">
+                                 <!--begin::Table-->
+                                 <table class="table align-middle table-bordered table-striped table-hover table-row-bordered table-row-solid gy-4 gs-9">
+                                    <!--begin::Thead-->
+                                    <thead class="border-gray-200 fs-5 fw-semibold bg-lighten">
+                                       <tr>
+                                          <th class="min-w-250px">chart</th>
+                                          <th class="min-w-250px">
+                                           This Month <span class="badge badge-primary fs-7 fw-bold">@php echo date("F"); @endphp</span>
+                                          </th>
+                                          <th class="min-w-100px">
+                                             Last Month <span class="badge badge-primary fs-7 fw-bold">@php echo date('F', strtotime('-1 month', time())); @endphp</span>
+                                          </th>
+                                          <th class="min-w-150px">
+                                             This Year <span class="badge badge-primary fs-7 fw-bold">@php echo date("Y"); @endphp</span>
+                                             </th>
+                                       </tr>
+                                    </thead>
+                                    <!--end::Thead-->
+                                    <!--begin::Tbody-->
+                                    <tbody class="fw-6 fw-semibold text-gray-600">
+                                       <!--Current Month Late Attendance Count Start-->
+                                       @php 
+                                       $late_attendance_current_month = 0;
+                                       @endphp
+                                       @foreach($attendance_current_month as $current_month)
+                                       @if($single_user->id == $current_month->user_id AND $current_month->created_at->format('h:i:s') > '11:15:00')
+                                       @php 
+                                       $late_attendance_current_month++;
+                                       @endphp
+                                       @endif  
+                                       @endforeach
+                                       <!--Current Month Late Attendance Count End-->
+                                       <!--Last Month Late Attendance Count Start-->
+                                       @php 
+                                       $late_attendance_last_month = 0;
+                                       @endphp
+                                       @foreach($last_month_attendances as $last_month)
+                                       @if($single_user->id == $last_month->user_id AND $last_month->created_at->format('h:i:s') > '11:15:00')
+                                       @php 
+                                       $late_attendance_last_month++;
+                                       @endphp
+                                       @endif  
+                                       @endforeach
+                                       <!--Last Month Late Attendance Count End-->
+                                       <!--This Year Late Attendance Count Start-->
+                                       @php 
+                                       $late_attendance_this_year = 0;
+                                       @endphp
+                                       @foreach($This_Year_attendances as $This_Year)
+                                       @if($single_user->id == $This_Year->user_id AND $This_Year->created_at->format('h:i:s') > '11:15:00')
+                                       @php 
+                                       $late_attendance_this_year++;
+                                       @endphp
+                                       @endif  
+                                       @endforeach
+                                       <!--This Year Late Attendance Count End-->
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-primary text-gray-600">Late Attendance</a>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$late_attendance_current_month}} Day</span>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$late_attendance_last_month}} Day</span>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$late_attendance_this_year}} Day</span>
+                                          </td>
+                                       </tr>
+                                       <!--Current Month Leave Count Start-->
+                                       @php 
+                                       $leave_this_month = 0;
+                                       @endphp
+                                       @foreach($leave_current_month as $leave_current)
+                                       @if($single_user->id == $leave_current->user_id)
+                                       @php 
+                                       $leave_this_month++;
+                                       @endphp
+                                       @endif  
+                                       @endforeach
+                                       <!--Current Month leave Count End-->
+                                       <!--Last Month Leave Count Start-->
+                                       @php 
+                                       $leave_lst_month = 0;
+                                       @endphp
+                                       @foreach($leave_last_month as $leave_last)
+                                       @if($single_user->id == $leave_last->user_id)
+                                       @php 
+                                       $leave_lst_month++;
+                                       @endphp
+                                       @endif  
+                                       @endforeach
+                                       <!--Last Month Late Attendance Count End-->
+                                       <!--This Year Late Attendance Count Start-->
+                                       @php 
+                                       $leave_current_year = 0;
+                                       @endphp
+                                       @foreach($leave_this_year as $leave_year)
+                                       @if($single_user->id == $leave_year->user_id)
+                                       @php 
+                                       $leave_current_year++;
+                                       @endphp
+                                       @endif  
+                                       @endforeach
+                                       <!--This Year Late Attendance Count End-->
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-primary text-gray-600">Leave</a>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-success fs-7 fw-bold">{{$leave_this_month}} Day</span>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-success fs-7 fw-bold">{{$leave_lst_month}} Day</span>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-success fs-7 fw-bold">{{$leave_current_year}} Day</span>
+                                          </td>
+                                       </tr>
+                                       <!--Current Month Leave Count Start-->
+                                       @php 
+                                       $complete_project_this = 0;
+                                       @endphp
+                                       @foreach($project_current_month as $project_current)
+                                       @if($single_user->id == $project_current->user_id)
+                                       @if($project_current->status == 4)
+                                       @php 
+                                       $complete_project_this++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+                                       @php 
+                                       $current_cancel_project = 0;
+                                       @endphp
+                                       @foreach($project_current_month as $project_current)
+                                       @if($single_user->id == $project_current->user_id)
+                                       @if($project_current->status == 3)
+                                       @php 
+                                       $current_cancel_project++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+                                       <!--Current Month leave Count End-->
+                                       <!--Last Month Project Count Start-->
+                                       @php 
+                                       $complete_project_month = 0;
+                                       @endphp
+                                       @foreach($project_last_month as $project_last)
+                                       @if($single_user->id == $project_last->user_id)
+                                       @if($project_last->status == 4)
+                                       @php 
+                                       $complete_project_month++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+                                       @php 
+                                       $cancel_project_month = 0;
+                                       @endphp
+                                       @foreach($project_last_month as $project_last)
+                                       @if($single_user->id == $project_last->user_id)
+                                       @if($project_last->status == 3)
+                                       @php 
+                                       $cancel_project_month++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+                                       <!--Last Month Late Attendance Count End-->
+                                       <!--This Year Late Attendance Count Start-->
+                                       @php 
+                                       $complete_project_year = 0;
+                                       @endphp
+                                       @foreach($project_this_year as $project_year)
+                                       @if($single_user->id == $project_year->user_id)
+                                       @if($project_year->status == 4)
+                                       @php 
+                                       $complete_project_year++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+                                       @php 
+                                       $cancel_project_year = 0;
+                                       @endphp
+                                       @foreach($project_this_year as $project_year)
+                                       @if($single_user->id == $project_year->user_id)
+                                       @if($project_year->status == 3)
+                                       @php 
+                                       $cancel_project_year++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+                                       <!--This Year Late Attendance Count End-->
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-primary text-gray-600">Project</a>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-success fs-7 fw-bold">{{$complete_project_this}} Complete</span>
+                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$current_cancel_project}} Cancel</span>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-success fs-7 fw-bold">{{$complete_project_month}} Complete</span>
+                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$cancel_project_month}} Cancel</span>
+                                          </td>
+                                          <td>
+                                             <span class="badge badge-light-success fs-7 fw-bold">{{$complete_project_year}} Complete</span>
+                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$cancel_project_year}} Cancel</span>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                    <!--end::Tbody-->
+                                 </table>
+                                 <!--end::Table-->
+                              </div>
+                           </div>
+                           <!--end:::ToDay Attendance End-->
+                           <!--begin::Last Month Attendance Start-->
+                           <div class="tab-pane fade" id="kt_stats_widget_6_tab_2" role="tabpanel">
+                              <!--begin::Table container-->
+                              <div class="table-responsive">
+                                 <!--begin::Table-->
+                                 <table id="leave" class="table table-hover table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                       <tr>
+                                          <th>#SL</th>
+                                          <th>Start Date</th>
+                                          <th>End Date</th>
+                                          <th>Leave Type</th>
+                                          <th>No of Day</th>
+                                          <th>Status</th>
+                                          <th>Action</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       @php 
+                                       $x = 1;
+                                       @endphp
+                                       @foreach($leaves as $leave)
+                                       @if($single_user->id == $leave->user_id)
+                                       <tr>
+                                          <td>
+                                             <span class="fw-bold">{{$x++}}</span>
+                                          </td>
+                                          <td>
+                                             {{Carbon\Carbon::parse($leave->start_date)->format('d,M,Y')}}
+                                          </td>
+                                          <td>
+                                             {{Carbon\Carbon::parse($leave->end_date)->format('d,M,Y')}}
+                                          </td>
+                                          <td>
+                                             @if($leave->type == 1)
+                                             Full Day
+                                             @elseif($leave->type == 2)
+                                             Half Day
+                                             @else
+                                             @endif
+                                          </td>
+                                          <td>
+                                             <div class="badge badge-light-primary">{{$leave->total_day}} Day</div>
+                                          </td>
+                                          <td>
+                                             @if($leave->status == 1)
+                                             <div class="alert alert-warning">Panding</div>
+                                             @elseif($leave->status == 2)
+                                             <div class="alert alert-primary">Approved</div>
+                                             @elseif($leave->status == 3)
+                                             <div class="alert alert-danger">Cancelled</div>
+                                             @else
+                                             @endif
+                                          </td>
+                                          <td>
+                                             <!--begin::Menu-->
+                                             <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+                                             <i class="ki-outline ki-dots-square fs-1"></i>
+                                             </button>
+                                             <!--begin::Menu 2-->
+                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                   <a href="{{route('admin.leave.edit',$leave->id)}}" class="menu-link px-3">Edit</a>
+                                                </div>
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                   <a class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_delete">Delete</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                             </div>
+                                          </td>
+                                          <!--begin::Modal - New Target-->
+                                          <div class="modal fade" id="kt_modal_delete" tabindex="-1" aria-hidden="true">
+                                             <!--begin::Modal dialog-->
+                                             <div class="modal-dialog modal-dialog-centered mw-650px">
+                                                <!--begin::Modal content-->
+                                                <div class="modal-content rounded">
+                                                   <!--begin::Modal header-->
+                                                   <div class="modal-header pb-0 border-0 justify-content-end">
+                                                      <!--begin::Close-->
+                                                      <div class="btn btn-sm btn-icon btn-active-color-primary" data-kt-modal-action-type="close">
+                                                         <i class="ki-outline ki-cross fs-1"></i>
+                                                      </div>
+                                                      <!--end::Close-->
+                                                   </div>
+                                                   <!--begin::Modal header-->
+                                                   <!--begin::Modal body-->
+                                                   <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                                      <!--begin:Form-->
+                                                      <form action="{{route('admin.leave.destroy',$leave->id)}}" method="POST" enctype="multipart/form-data" class="form">
+                                                         @csrf
+                                                         <!--begin::Heading-->
+                                                         <div class="mb-13 text-center">
+                                                            <h1 class="mb-3">Delete Leave</h1>
+                                                            <div class="text-muted fw-semibold fs-5">Are you sure to 
+                                                               <a class="link-danger fw-bold">delete ?</a>
+                                                            </div>
+                                                         </div>
+                                                         <!--begin::Actions-->
+                                                         <div class="text-center mt-3">
+                                                            <button type="reset" class="btn btn-light me-3" data-kt-modal-action-type="cancel">Cancel</button>
+                                                            <button type="submit" class="btn btn-danger" data-kt-modal-action-type="submit">
+                                                            <span class="indicator-label">Delete</span>
+                                                            <span class="indicator-progress">Please wait...
+                                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                                            </button>
+                                                         </div>
+                                                      </form>
+                                                      <!--end:Form-->
+                                                   </div>
+                                                   <!--end::Modal body-->
+                                                </div>
+                                                <!--end::Modal content-->
+                                             </div>
+                                             <!--end::Modal dialog-->
+                                          </div>
+                                          <!--end::Modal - New Target-->
+                                       </tr>
+                                       @else
+                                       @endif
+                                       @endforeach
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <!--end::Table-->
+                           </div>
+                           <!--end::Last Month Attendance End-->
+                           <!--begin::All Attendance Start-->
+                           <div class="tab-pane fade" id="kt_stats_widget_6_tab_3" role="tabpanel">
+                              <!--begin::Table container-->
+                              <div class="table-responsive">
+                                 <!--begin::Table-->
+                                 <table id="leave" class="table table-hover table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                       <tr>
+                                          <th>#SL</th>
+                                          <th>Start Date</th>
+                                          <th>End Date</th>
+                                          <th>Leave Type</th>
+                                          <th>No of Day</th>
+                                          <th>Status</th>
+                                          <th>Action</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       @php 
+                                       $x = 1;
+                                       @endphp
+                                       @foreach($leaves as $leave)
+                                       @if($single_user->id == $leave->user_id)
+                                       <tr>
+                                          <td>
+                                             <span class="fw-bold">{{$x++}}</span>
+                                          </td>
+                                          <td>
+                                             {{Carbon\Carbon::parse($leave->start_date)->format('d,M,Y')}}
+                                          </td>
+                                          <td>
+                                             {{Carbon\Carbon::parse($leave->end_date)->format('d,M,Y')}}
+                                          </td>
+                                          <td>
+                                             @if($leave->type == 1)
+                                             Full Day
+                                             @elseif($leave->type == 2)
+                                             Half Day
+                                             @else
+                                             @endif
+                                          </td>
+                                          <td>
+                                             <div class="badge badge-light-primary">{{$leave->total_day}} Day</div>
+                                          </td>
+                                          <td>
+                                             @if($leave->status == 1)
+                                             <div class="alert alert-warning">Panding</div>
+                                             @elseif($leave->status == 2)
+                                             <div class="alert alert-primary">Approved</div>
+                                             @elseif($leave->status == 3)
+                                             <div class="alert alert-danger">Cancelled</div>
+                                             @else
+                                             @endif
+                                          </td>
+                                          <td>
+                                             <!--begin::Menu-->
+                                             <button class="btn btn-icon btn-color-gray-400 btn-active-color-primary justify-content-end" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+                                             <i class="ki-outline ki-dots-square fs-1"></i>
+                                             </button>
+                                             <!--begin::Menu 2-->
+                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                   <a href="{{route('admin.leave.edit',$leave->id)}}" class="menu-link px-3">Edit</a>
+                                                </div>
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                   <a class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_delete">Delete</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                             </div>
+                                          </td>
+                                          <!--begin::Modal - New Target-->
+                                          <div class="modal fade" id="kt_modal_delete" tabindex="-1" aria-hidden="true">
+                                             <!--begin::Modal dialog-->
+                                             <div class="modal-dialog modal-dialog-centered mw-650px">
+                                                <!--begin::Modal content-->
+                                                <div class="modal-content rounded">
+                                                   <!--begin::Modal header-->
+                                                   <div class="modal-header pb-0 border-0 justify-content-end">
+                                                      <!--begin::Close-->
+                                                      <div class="btn btn-sm btn-icon btn-active-color-primary" data-kt-modal-action-type="close">
+                                                         <i class="ki-outline ki-cross fs-1"></i>
+                                                      </div>
+                                                      <!--end::Close-->
+                                                   </div>
+                                                   <!--begin::Modal header-->
+                                                   <!--begin::Modal body-->
+                                                   <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                                      <!--begin:Form-->
+                                                      <form action="{{route('admin.leave.destroy',$leave->id)}}" method="POST" enctype="multipart/form-data" class="form">
+                                                         @csrf
+                                                         <!--begin::Heading-->
+                                                         <div class="mb-13 text-center">
+                                                            <h1 class="mb-3">Delete Leave</h1>
+                                                            <div class="text-muted fw-semibold fs-5">Are you sure to 
+                                                               <a class="link-danger fw-bold">delete ?</a>
+                                                            </div>
+                                                         </div>
+                                                         <!--begin::Actions-->
+                                                         <div class="text-center mt-3">
+                                                            <button type="reset" class="btn btn-light me-3" data-kt-modal-action-type="cancel">Cancel</button>
+                                                            <button type="submit" class="btn btn-danger" data-kt-modal-action-type="submit">
+                                                            <span class="indicator-label">Delete</span>
+                                                            <span class="indicator-progress">Please wait...
+                                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                                            </button>
+                                                         </div>
+                                                      </form>
+                                                      <!--end:Form-->
+                                                   </div>
+                                                   <!--end::Modal body-->
+                                                </div>
+                                                <!--end::Modal content-->
+                                             </div>
+                                             <!--end::Modal dialog-->
+                                          </div>
+                                          <!--end::Modal - New Target-->
+                                       </tr>
+                                       @else
+                                       @endif
+                                       @endforeach
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <!--end::Table-->
+                           </div>
+                           <!--end::All Attendance End-->
+                        </div>
+                        <!--end::Tab Content-->
                      </div>
                      <!--end:::Tab pane-->
                      {{-- Attendance Table  --}}

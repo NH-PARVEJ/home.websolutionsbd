@@ -61,11 +61,20 @@ class UserController extends Controller
         $departments  = Department::orderBy('id', 'asc')->get();
 
         $project_current_month      = Project::whereMonth('complete_date', Carbon::now())->get();
+        $project_last_month         = Project::query()->whereDate('complete_date', now()->subMonth())->get();
+        $project_this_year          = Project::whereYear('complete_date', date('Y'))->get();
+
         $leave_current_month        = Leave::whereMonth('end_date', Carbon::now())->get();
+        $leave_last_month           = Leave::query()->whereDate('end_date', now()->subMonth())->get();
+        $leave_this_year            = Leave::whereYear('end_date', date('Y'))->get();
+
         $attendance_current_month   = Attendance::whereMonth('created_at', Carbon::now())->get();
+        $last_month_attendances     = Attendance::query()->whereDate('created_at', now()->subMonth())->get();
+        $This_Year_attendances      = Attendance::whereYear('created_at', date('Y'))->get();
 
         if(!is_null($single_user)){
-            return view('backend.pages.user.manage', compact('single_user', 'users' ,'attendances', 'leaves', 'loans', 'projects', 'project_current_month', 'leave_current_month', 'attendance_current_month', 'designations', 'departments'));
+        $This_Year_attendances      = Attendance::whereYear('created_at', date('Y'))->get();
+            return view('backend.pages.user.manage', compact('single_user', 'users' ,'attendances', 'leaves', 'loans', 'projects', 'project_current_month', 'project_last_month', 'project_this_year', 'leave_current_month', 'leave_last_month', 'leave_this_year', 'attendance_current_month', 'last_month_attendances', 'This_Year_attendances', 'designations', 'departments'));
         }
 
     }
