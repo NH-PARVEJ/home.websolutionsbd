@@ -25,7 +25,7 @@ class DashboardContarller extends Controller
 
         $attendances        = Attendance::orderBy('id', 'asc')->get();
         $users              = User::orderBy('id', 'asc')->get();
-        $loans              = Loan::orderBy('id', 'asc')->get();
+        $loans              = Loan::where('status', 2)->get();
         $leaves             = Leave::orderBy('id', 'asc')->get();
         $project            = Project::orderBy('id', 'asc')->where('status', '=', 1)->orWhere('status', '=', 2)->get();
 

@@ -147,20 +147,5 @@ $('input[name=status]').change(function(){
 
 
 <script type='text/javascript'>
-  new DataTable('#today_datatable');
-</script>
-<script type='text/javascript'>
-  new DataTable('#Last_month_datatable');
-</script>
-<script type='text/javascript'>
-  new DataTable('#datatable');
-</script>
-<script type='text/javascript'>
-  new DataTable('#leave');
-</script>
-<script type='text/javascript'>
-  new DataTable('#loan');
-</script>
-<script type='text/javascript'>
-  new DataTable('#project');
+  new DataTable('#datatable, #today_datatable, #this_month_datatable, #Last_month_datatable, #leave, #loan, #project');
 </script>

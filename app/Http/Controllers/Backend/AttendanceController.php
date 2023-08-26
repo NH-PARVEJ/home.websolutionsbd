@@ -23,10 +23,11 @@ class AttendanceController extends Controller
         $all_attendances         = Attendance::orderBy('id', 'asc')->get();
         $users                   = User::orderBy('id', 'asc')->get();
         $today_attendances       = Attendance::whereDate('created_at', now()->today())->get();
+        $this_month_attendances  = Attendance::whereMonth('created_at', now()->month)->get();
         $last_month_attendances  = Attendance::query()->whereDate('created_at', now()->subMonth())->get();
+        
 
-
-        return view('backend.pages.attendance.manage', compact('all_attendances', 'today_attendances', 'last_month_attendances' ,'users'));
+        return view('backend.pages.attendance.manage', compact('all_attendances', 'today_attendances', 'last_month_attendances', 'this_month_attendances' ,'users'));
     }
 
 
