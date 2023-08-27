@@ -454,7 +454,7 @@
                                        $late_attendance_current_month = 0;
                                        @endphp
                                        @foreach($attendance_current_month as $current_month)
-                                       @if($single_user->id == $current_month->user_id AND $current_month->created_at->format('h:i:s') > '11:15:00')
+                                       @if($single_user->id == $current_month->user_id AND $current_month->created_at->format('h:i:s') > '11:00:00')
                                        @php 
                                        $late_attendance_current_month++;
                                        @endphp
@@ -466,7 +466,7 @@
                                        $late_attendance_last_month = 0;
                                        @endphp
                                        @foreach($last_month_attendances as $last_month)
-                                       @if($single_user->id == $last_month->user_id AND $last_month->created_at->format('h:i:s') > '11:15:00')
+                                       @if($single_user->id == $last_month->user_id AND $last_month->created_at->format('h:i:s') > '11:00:00')
                                        @php 
                                        $late_attendance_last_month++;
                                        @endphp
@@ -478,7 +478,7 @@
                                        $late_attendance_this_year = 0;
                                        @endphp
                                        @foreach($This_Year_attendances as $This_Year)
-                                       @if($single_user->id == $This_Year->user_id AND $This_Year->created_at->format('h:i:s') > '11:15:00')
+                                       @if($single_user->id == $This_Year->user_id AND $This_Year->created_at->format('h:i:s') > '11:00:00')
                                        @php 
                                        $late_attendance_this_year++;
                                        @endphp

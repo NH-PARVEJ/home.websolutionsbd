@@ -75,50 +75,24 @@
                               <form action="{{route('user.attendance.store')}}" method="POST">
                                  @csrf
                                  @php
-                                 $date = date('H:i:s');
-                                 $date = '09:00:00';
+                                 $time = date('H:i:s');
                                  @endphp
-
-                                 {{-- @if($date >= '10:00:00') --}}
                                  <input type="radio" value="1" name="status" id="option-1">
-                                 {{-- @elseif($date >= '21:00:00') --}}
                                  <input type="radio" value="2" name="status" id="option-2">
-                                 {{-- @else
-                                 @endif --}}
-                                 {{-- <input type="radio" value="2" name="status" id="option-2"> --}}
                                  <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-
                                  <span>
-                                    {{-- @if($date >= '10:00:00') --}}
-                                    <label for="option-1"  class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
+                                    @if($time >= '10:00:00' AND $time < '22:00:00')
+                                    <label for="option-1"  class="btn btn-sm btn-primary me-3 btn btn-sm btn-primary btn-flex btn-center">
                                        <div class="dot"></div>
                                        <span>Clock In</span>
                                     </label>
-                                    <label for="option-2" class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
+                                    <label for="option-2" class="btn btn-sm btn-primary me-3 btn btn-sm btn-danger btn-flex btn-center">
                                        <div class="dot"></div>
                                        <span>Clock Out</span>
                                     </label>
-
-                                    {{-- @elseif($date >= '21:00:00') --}}
-                                    <label for="option-1" disabled class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
-                                       <div class="dot"></div>
-                                       <span>Clock In</span>
-                                    </label>
-                                    <label for="option-2" disabled class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
-                                       <div class="dot"></div>
-                                       <span>Clock Out</span>
-                                    </label>
-
-                                    {{-- @else --}}
-                                    <label for="option-1"  class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
-                                       <div class="dot"></div>
-                                       <span>Clock In</span>
-                                    </label>
-                                    <label for="option-2"  class="btn btn-sm btn-primary me-3 btn btn-sm btn-light-primary btn-flex btn-center">
-                                       <div class="dot"></div>
-                                       <span>Clock Out</span>
-                                    </label>
-                                    {{-- @endif --}}
+                                    @else
+                                    <span class="alert alert-danger border-dashed border-danger">Check-in and check-out are currently not permitted at this time.</span>
+                                    @endif
                                  </span>
                               </form>
                               <!--end::Follow--> 
@@ -431,7 +405,7 @@
                               <div class="flex-grow-1 me-2">
                                  <a class="text-gray-800 text-hover-primary fs-6 fw-bold">Department</a>
                                  <span class="text-muted fw-semibold d-block fs-7">
-                                       {{Auth::user()->department}}
+                                 {{Auth::user()->department}}
                                  </span>
                               </div>
                               <!--end:Author-->
@@ -567,7 +541,6 @@
                                  <td>
                                     <span class="fw-bold">{{$x++}}</span>
                                  </td>
-
                                  <td>
                                     <span class="fw-bold ms-3">
                                     @if(Auth::user()->id == $attendance->user_id)
@@ -576,27 +549,24 @@
                                     @endif
                                     </span>
                                  </td>
-
                                  <td>
                                     {{$attendance->created_at->format('d-F-Y')}}
                                  </td>
-
                                  <td>
                                     @if($attendance->status == 1)
-                                       @if($attendance->created_at->format('h:i:s') <= '11:00:00')
-                                       {{$attendance->created_at->format('h:i:s A')}}
-                                       @elseif($attendance->created_at->format('h:i:s') <= '11:15:00')
-                                       <div class="badge text-white" style="background-color:#FFC000;">{{$attendance->created_at->format('h:i:s A')}}</div>
-                                       @elseif($attendance->created_at->format('h:i:s') <= '11:30:00')
-                                       <div class="badge text-white" style="background-color:#FF7518;">{{$attendance->created_at->format('h:i:s A')}}</div>
-                                       @else
-                                       {{$attendance->created_at->format('h:i:s A')}}
-                                       @endif
+                                    @if($attendance->created_at->format('h:i:s') <= '11:00:00')
+                                    {{$attendance->created_at->format('h:i:s A')}}
+                                    @elseif($attendance->created_at->format('h:i:s') <= '11:15:00')
+                                    <div class="badge text-white" style="background-color:#FFC000;">{{$attendance->created_at->format('h:i:s A')}}</div>
+                                    @elseif($attendance->created_at->format('h:i:s') <= '11:30:00')
+                                    <div class="badge text-white" style="background-color:#FF7518;">{{$attendance->created_at->format('h:i:s A')}}</div>
+                                    @else
+                                    {{$attendance->created_at->format('h:i:s A')}}
+                                    @endif
                                     @else
                                     {{$attendance->created_at->format('h:i:s A')}}
                                     @endif
                                  </td>
-                                    
                                  <td>
                                     <!-- office_in_time time -->
                                     @php
@@ -649,11 +619,9 @@
                                     @endif
                                     @endif
                                  </td>
-
                                  <td>
                                     <div class="badge badge-light-primary">{{$attendance->ip_address}}</div>
                                  </td>
-
                               </tr>
                               @else
                               @endif
