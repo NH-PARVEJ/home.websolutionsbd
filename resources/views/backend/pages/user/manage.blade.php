@@ -436,19 +436,24 @@
                                        <tr>
                                           <th class="min-w-250px">chart</th>
                                           <th class="min-w-250px">
-                                           This Month <span class="badge badge-primary fs-7 fw-bold">@php echo date("F"); @endphp</span>
+                                          This Month 
+                                           {{-- <span class="badge badge-primary fs-7 fw-bold">@php echo date("F"); @endphp</span>  --}}
                                           </th>
                                           <th class="min-w-100px">
-                                             Last Month <span class="badge badge-primary fs-7 fw-bold">@php echo date('F', strtotime('-1 month', time())); @endphp</span>
+                                          Last Month
+                                          {{-- <span class="badge badge-primary fs-7 fw-bold">@php echo date('F', strtotime('-1 month', time())); @endphp</span> --}}
                                           </th>
                                           <th class="min-w-150px">
-                                             This Year <span class="badge badge-primary fs-7 fw-bold">@php echo date("Y"); @endphp</span>
-                                             </th>
+                                          This Year 
+                                             {{-- <span class="badge badge-primary fs-7 fw-bold">@php echo date("Y"); @endphp</span> --}}
+                                          </th>
                                        </tr>
+
                                     </thead>
                                     <!--end::Thead-->
                                     <!--begin::Tbody-->
                                     <tbody class="fw-6 fw-semibold text-gray-600">
+
                                        <!--Current Month Late Attendance Count Start-->
                                        @php 
                                        $late_attendance_current_month = 0;
@@ -461,6 +466,7 @@
                                        @endif  
                                        @endforeach
                                        <!--Current Month Late Attendance Count End-->
+
                                        <!--Last Month Late Attendance Count Start-->
                                        @php 
                                        $late_attendance_last_month = 0;
@@ -485,70 +491,249 @@
                                        @endif  
                                        @endforeach
                                        <!--This Year Late Attendance Count End-->
-                                       <tr>
-                                          <td>
-                                             <a class="text-hover-primary text-gray-600">Late Attendance</a>
-                                          </td>
-                                          <td>
-                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$late_attendance_current_month}} Day</span>
-                                          </td>
-                                          <td>
-                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$late_attendance_last_month}} Day</span>
-                                          </td>
-                                          <td>
-                                             <span class="badge badge-light-danger fs-7 fw-bold">{{$late_attendance_this_year}} Day</span>
-                                          </td>
-                                       </tr>
+
+
                                        <!--Current Month Leave Count Start-->
                                        @php 
                                        $leave_this_month = 0;
                                        @endphp
                                        @foreach($leave_current_month as $leave_current)
                                        @if($single_user->id == $leave_current->user_id)
-                                       @php 
-                                       $leave_this_month++;
+                                       @if($leave_current->status == 2)
+
+                                       @php
+                                       $leave_this_month = $leave_this_month + $leave_current->total_day;
                                        @endphp
+
+                                       @endif  
                                        @endif  
                                        @endforeach
                                        <!--Current Month leave Count End-->
+
                                        <!--Last Month Leave Count Start-->
                                        @php 
                                        $leave_lst_month = 0;
                                        @endphp
                                        @foreach($leave_last_month as $leave_last)
                                        @if($single_user->id == $leave_last->user_id)
-                                       @php 
-                                       $leave_lst_month++;
+                                       @if($leave_last->status == 2)
+                                       @php
+                                       $leave_lst_month = $leave_lst_month + $leave_last->total_day;
                                        @endphp
                                        @endif  
+                                       @endif  
                                        @endforeach
-                                       <!--Last Month Late Attendance Count End-->
-                                       <!--This Year Late Attendance Count Start-->
+                                       <!--Last Month Leave Count End-->
+
+                                       <!--This Year Leave Count Start-->
                                        @php 
                                        $leave_current_year = 0;
                                        @endphp
                                        @foreach($leave_this_year as $leave_year)
                                        @if($single_user->id == $leave_year->user_id)
-                                       @php 
-                                       $leave_current_year++;
+                                       @if($leave_year->status == 2)
+                                       @php
+                                       $leave_current_year = $leave_current_year + $leave_year->total_day;
                                        @endphp
                                        @endif  
+                                       @endif  
                                        @endforeach
+                                       <!--This Year Leave Count End-->
+
+
+
+
+
+
+<!----------------------------------------Current Month working day count Start---------------------------------------->
+                                       @php
+                                       $current_month =  date('t');
+                                       $friday        =  4;
+                                       $total_working_day_this = $current_month - $friday;
+                                       @endphp
+<!----------------------------------------Current Month working day count End---------------------------------------->
+
+
+<!----------------------------------------Current Month working day count Start---------------------------------------->
+                                       @php
+                                       $last_month =  date('t', strtotime('-1 month', time()));
+                                       $friday     =  4;
+                                       $total_working_day_last = $last_month - $friday;
+                                       @endphp
+<!----------------------------------------Current Month working day count End---------------------------------------->
+
+
+<!----------------------------------------One Month Present count Start---------------------------------------->
+                                       @php 
+                                       $present_month = 0;
+                                       @endphp
+                                       @foreach($attendance_current_month as $current_month)
+                                       @if($single_user->id == $current_month->user_id)
+                                       @if($current_month->status == 1)
+                                       @php 
+                                       $present_month++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+<!----------------------------------------One Month Present count End---------------------------------------->
+
+
+
+<!----------------------------------------One Month Present count Start---------------------------------------->
+                                       @php 
+                                       $present_last = 0;
+                                       @endphp
+                                       @foreach($last_month_attendances as $last_month)
+                                       @if($single_user->id == $last_month->user_id)
+                                       @if($last_month->status == 1)
+                                       @php 
+                                       $present_last++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+<!----------------------------------------One Month Present count End---------------------------------------->
+
+
+
+<!----------------------------------------One Year Present count Start---------------------------------------->
+                                       @php 
+                                       $present_year = 0;
+                                       @endphp
+                                       @foreach($This_Year_attendances as $This_Year)
+                                       @if($single_user->id == $This_Year->user_id)
+                                       @if($This_Year->status == 1)
+                                       @php 
+                                       $present_year++;
+                                       @endphp
+                                       @endif  
+                                       @endif  
+                                       @endforeach
+<!----------------------------------------One Year Present count End---------------------------------------->
+
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-primary text-gray-600">Working Days</a>
+                                          </td>
+                                          <td>
+
+                                          {{$total_working_day_this}} Day <!-----1 Month Working Day---->
+
+                                          </td>
+
+                                          <td>
+                                             {{$total_working_day_last}} Day <!-----1 Month Working Day---->
+                                          </td>
+
+                                          <td>
+                                             312 Day <!-----1 Year Working Day---->
+                                          </td>
+
+                                       </tr>
+
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-primary text-gray-600">Present</a>
+                                          </td>
+                                          <td>
+                                             {{$present_month}} Day
+                                          </td>
+                                          <td>
+                                             {{$present_last}} Day
+                                          </td>
+                                          <td>
+                                             {{$present_year}} Day
+                                          </td>
+                                       </tr>
+
+<!----------------------------------------Current Month working day count Start---------------------------------------->
+                                       @php
+                                       $current_month =  date('t');
+                                       $friday        =  4;
+                                       $total_working_day    = $current_month - $friday;
+                                       $total_absent_month   = $total_working_day - $present_month;
+                                       @endphp
+<!----------------------------------------Current Month working day count End---------------------------------------->
+
+
+<!----------------------------------------Current Month working day count Start---------------------------------------->
+                                       @php
+                                       $last_month =  date('t', strtotime('-1 month', time()));
+                                       $friday     =  4;
+                                       $total_working_day_last = $last_month - $friday;
+                                       $total_absent_last      = $total_working_day_last - $present_last;
+                                       @endphp
+<!----------------------------------------Current Month working day count End---------------------------------------->
+
+
+<!----------------------------------------Current Month working day count Start---------------------------------------->
+                                       @php
+                                       $working_year_day =  312;
+                                       $friday     =  4;
+                                       $total_working_day_year = $working_year_day - $friday;
+                                       $total_absent_year      = $total_working_day_year - $present_year;
+                                       @endphp
+<!----------------------------------------Current Month working day count End---------------------------------------->
+
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-primary text-gray-600">Absent</a>
+                                          </td>
+
+                                          <td>
+                                                <span class="badge badge-light-danger fs-7 fw-bold">
+                                                {{$total_absent_month}} Day
+                                                </span>
+                                          </td>
+
+                                          <td>
+                                               <span class="badge badge-light-danger fs-7 fw-bold">
+                                                {{$total_absent_last}} Day
+                                               </span>
+                                          </td>
+
+
+                                          <td>
+                                               <span class="badge badge-light-danger fs-7 fw-bold">
+                                                {{$total_absent_year}} Day
+                                               </span>
+                                          </td>
+                                       </tr>
+                                       
+                                       <!--Current Month Leave Count Start-->
                                        <!--This Year Late Attendance Count End-->
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-warning text-gray-600">Late Attendance</a>
+                                          </td>
+                                          <td>
+                                             <span style="background-color:#ffbf0015;" class="badge badge-light-warning fs-7 fw-bold">{{$late_attendance_current_month}} Day</span>
+                                          </td>
+                                          <td>
+                                             <span style="background-color:#ffbf0015;" class="badge badge-light-warning fs-7 fw-bold">{{$late_attendance_last_month}} Day</span>
+                                          </td>
+                                          <td>
+                                             <span style="background-color:#ffbf0015;" class="badge badge-light-warning fs-7 fw-bold">{{$late_attendance_this_year}} Day</span>
+                                          </td>
+                                       </tr>
+
                                        <tr>
                                           <td>
                                              <a class="text-hover-primary text-gray-600">Leave</a>
                                           </td>
                                           <td>
-                                             <span class="badge badge-light-success fs-7 fw-bold">{{$leave_this_month}} Day</span>
+                                             {{$leave_this_month}} Day
                                           </td>
                                           <td>
-                                             <span class="badge badge-light-success fs-7 fw-bold">{{$leave_lst_month}} Day</span>
+                                             {{$leave_lst_month}} Day
                                           </td>
                                           <td>
-                                             <span class="badge badge-light-success fs-7 fw-bold">{{$leave_current_year}} Day</span>
+                                             {{$leave_current_year}} Day
                                           </td>
                                        </tr>
+
+
                                        <!--Current Month Leave Count Start-->
                                        @php 
                                        $complete_project_this = 0;
@@ -561,6 +746,7 @@
                                        @endphp
                                        @endif  
                                        @endif  
+
                                        @endforeach
                                        @php 
                                        $current_cancel_project = 0;
@@ -575,6 +761,7 @@
                                        @endif  
                                        @endforeach
                                        <!--Current Month leave Count End-->
+
                                        <!--Last Month Project Count Start-->
                                        @php 
                                        $complete_project_month = 0;
@@ -586,7 +773,8 @@
                                        $complete_project_month++;
                                        @endphp
                                        @endif  
-                                       @endif  
+                                       @endif
+                                       
                                        @endforeach
                                        @php 
                                        $cancel_project_month = 0;
@@ -601,6 +789,7 @@
                                        @endif  
                                        @endforeach
                                        <!--Last Month Late Attendance Count End-->
+                                       
                                        <!--This Year Late Attendance Count Start-->
                                        @php 
                                        $complete_project_year = 0;
@@ -612,7 +801,8 @@
                                        $complete_project_year++;
                                        @endphp
                                        @endif  
-                                       @endif  
+                                       @endif
+                                         
                                        @endforeach
                                        @php 
                                        $cancel_project_year = 0;
@@ -644,6 +834,31 @@
                                              <span class="badge badge-light-danger fs-7 fw-bold">{{$cancel_project_year}} Cancel</span>
                                           </td>
                                        </tr>
+
+                                       <tr>
+                                          <td>
+                                             <a class="text-hover-primary text-black"><strong>Total =</strong></a>
+                                          </td>
+                                          <td>  
+                                             @php
+                                               $total_absent_month = $total_absent_month - $leave_this_month;
+                                             @endphp
+                                             {{$total_absent_month}} Absent
+                                          </td>
+                                          <td>
+                                             @php
+                                               $total_absent_last = $total_absent_last - $leave_lst_month;
+                                             @endphp
+                                             {{$total_absent_last}} Absent
+                                          </td>
+                                          <td>
+                                             @php
+                                               $total_absent_year = $total_absent_year - $leave_current_year;
+                                             @endphp
+                                             {{$total_absent_year}} Absent
+                                          </td>
+                                       </tr>
+
                                     </tbody>
                                     <!--end::Tbody-->
                                  </table>
