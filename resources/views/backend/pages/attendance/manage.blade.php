@@ -118,9 +118,9 @@
                                        <img src="{{asset('backend/assets/media/user/user.png')}}" alt="user" />
                                        @endif
                                     </div>
-                                    <span class="fw-bold ms-3">
+                                    <a href="{{route('user.profile',$user->id)}}"  class="fw-bold text-black text-hover-primary ms-3">
                                     {{$user->name}}
-                                    </span>
+                                    </a>
                                  </td>
                                  <td>
                                     {{$today_attendance->created_at->format('d-F-Y')}}
